@@ -1,0 +1,107 @@
+{{extend 'layout.html'}}
+
+
+<h4>
+Search for a Pokemon by dual stats. For example, if you wish to find the fastest Pokemon with the highest special attack you would simply select Speed for one stat and Special Attack for the other. You can also narrow it down based on Pokemon Types as well.
+</h4>
+<br>
+<form enctype="multipart/form-data" action="{{URL()}}" method="post">
+    <select name='stat1' >
+        {{for category in categories:}}
+        {{stat1 = category.name}}
+
+            <option value="{{=stat1}}" 
+                {{=" selected='selected'" if str(category.id)==request.vars.category_name else ""}}>
+            {{=category.name}}
+            </option>
+        {{pass}}
+    </select>    
+     <select name='stat2' >
+        {{for category in categories:}}
+            <option value="{{=category.name}}" 
+                {{=" selected='selected'" if str(category.id)==request.vars.category_name else ""}}>
+            {{=category.name}}
+            </option>
+        {{pass}}
+    </select>    
+    
+         <select name='ptype' >
+        {{for type in ptypes:}}
+            <option value="{{=type.name}}" 
+                {{=" selected='selected'" if str(category.id)==request.vars.category_name else ""}}>
+            {{=type.name}}
+            </option>
+        {{pass}}
+    </select>
+<button type="submit" value='Submit' class="btn btn-success">Find</button>
+
+    
+    </form>
+ 
+<hr>
+{{if lists:}}
+<h4>
+    Pokemon with the highest {{=stataname}} and {{=statbname}} that is {{=ptype}} type
+</h4>
+{{for creature in lists:}}
+<img src="/battledex/static/images/{{=creature.pmID}}.png"/>
+<b>{{=creature.name}}</b>
+<br>
+<b>Total: </b>{{=creature.total}}<br>
+{{types=[item.strip() for item in creature.ptype.split('/')]}}
+<b>Type: </b>
+{{for x in types:}}
+<img src="/battledex/static/images/{{=x.lower()}}.gif"/>
+
+{{pass}}
+
+
+
+
+
+
+
+<html>
+    
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Power', 'Power'],
+            ['HP',  {{=creature.hp}}],
+            ['Attack',  {{=creature.attack}}],
+            ['SP Attack',  {{=creature.spattack}}],
+            ['Defense',  {{=creature.defense}}],
+            ['SP Defense',  {{=creature.spdefense}}],
+            ['Speed',  {{=creature.speed}}]
+        ]);
+
+
+        var options = {
+          title: '',
+          vAxis: {title: '',  titleTextStyle: {color: 'red'}}
+        };
+
+          var chart = new google.visualization.BarChart(document.getElementById('{{=creature.name}}div'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>      
+      <div class="row">
+          <div class="span4" id="{{=creature.name}}div" style="width: 500px; height: 250px;"></div>
+
+</div>
+      
+      
+  </body>
+</html>
+{{pass}}
+{{pass}}
+{{pass}}
+{{pass}}
+{{pass}}
+{{pass}}

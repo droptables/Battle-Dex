@@ -1,0 +1,12 @@
+{{extend 'layout.html'}}
+Now supporting up to Gen 6!
+<br>
+This is a personal tool of mine I developed to make accessing information about Pokemon much easier.  A simplified interface to all of your competitve Pokemon needs.
+Many more updates are on the way.  
+<br>
+<br>
+<img src="/battledex/static/images/pokeballicon.png"/><a href="http://www.battle-dex.net/search_input">Enemy Analyzer:</a> View a Pokemon's weaknesses as well as stats.<br><br>
+<img src="/battledex/static/images/pokeballicon.png"/><a href="http://www.battle-dex.net/pokefinder">Poke Finder:</a> Discover a Pokemon based on dual stats. (fastest Pokemon with highest Special Attack)<br><br>
+<img src="/battledex/static/images/twitter.png"/><a href="http://twitter.com/endersavage">Follow Me!</a>
+<br>
+<br>

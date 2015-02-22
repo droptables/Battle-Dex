@@ -1,0 +1,85 @@
+{{extend 'layout.html'}}
+<h3>
+Enter a Pokemon name...
+</h3>
+<style>
+.suggestions { position: relative; }
+.suggestions { background: white; border:inset #A9E2F3; }
+.suggestions DIV { padding: 2px 4px 2px 4px; }
+</style>
+<form>
+ <input type="text" id="pokemon" name="pokemon" style="width: 250px" /><br />
+ <div style="position: absolute;" id="suggestions" class="suggestions"></div>
+</form>
+
+
+<script>
+jQuery("#pokemon").keyup(function(){
+      ajax('search_selector', ['pokemon'], 'suggestions')});
+</script>
+
+
+
+{{if results:}}
+{{for creature in results:}}
+
+<img src="/battledex/static/images/{{=creature.pmID}}.png"/>
+<b>{{=creature.name}}</b>
+
+{{types=[item.strip() for item in creature.ptype.split('/')]}}
+{{for x in types:}}
+<img src="/battledex/static/images/{{=x.lower()}}.gif"/>
+{{pass}}
+
+
+<br>
+
+<b>Weak to:</b>
+
+{{weakto=[item.strip() for item in creature.weakto.split(',')]}}
+{{for x in weakto:}}
+<img src="/battledex/static/images/{{=x.lower()}}.gif"/>
+{{pass}}
+
+<br>
+<b>Resistant to:</b>
+{{resistantto=[item.strip() for item in creature.resistantto.split(',')]}}
+{{for x in resistantto:}}
+<img src="/battledex/static/images/{{=x.lower()}}.gif"/>
+{{pass}}
+<br>
+<b>Total: </b>{{=creature.total}}
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Power', 'Power'],
+            ['HP',  {{=creature.hp}}],
+            ['Attack',  {{=creature.attack}}],
+            ['SP Attack',  {{=creature.spattack}}],
+            ['Defense',  {{=creature.defense}}],
+            ['SP Defense',  {{=creature.spdefense}}],
+            ['Speed',  {{=creature.speed}}]
+        ]);
+
+        var options = {
+          title: '',
+          vAxis: {title: '',  titleTextStyle: {color: 'red'}}
+        };
+
+          var chart = new google.visualization.BarChart(document.getElementById('{{=creature.pmID}}div'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+      <div id="{{=creature.pmID}}div" style="width: 500px; height: 250px;"></div>
+  </body>
+</html>
+{{pass}}
+{{pass}}
+{{pass}}
